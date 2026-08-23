@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Tokens da marca Baby Dog
+   Cores extraídas diretamente das artes oficiais da clínica.
+   Contraste conferido em WCAG 2.1 AA (medido na página renderizada):
+     brand       #076589 sobre branco ......... 6,50:1  ✓ texto normal
+     ink-soft    #4A6874 sobre branco ......... 5,96:1  ✓ texto normal
+     accent-dark #177A70 sobre surface-alt .... 4,92:1  ✓ texto normal
+     accent-dark #177A70 + texto branco ....... 5,18:1  ✓ texto normal
+     accent-soft #A5E9E1 sobre brand .......... 4,75:1  ✓ texto sobre fundo escuro
+     accent      #28AA9E sobre branco ......... 2,86:1  ✗ NUNCA usar em texto
+   -------------------------------------------------------------------------- */
+
+@theme {
+  /* Azul petróleo — cor primária da marca */
+  --color-brand: #076589;
+  --color-brand-dark: #05506e;
+  --color-brand-darker: #043d53;
+  --color-brand-light: #e6f1f6;
+  --color-brand-tint: #f2f8fb;
+
+  /* Verde-água — cor de acento.
+     `accent` é decorativo (formas, ícones sobre fundo claro).
+     `accent-dark` é a versão legível para texto sobre fundo claro.
+     `accent-soft` é a versão legível para texto sobre o azul da marca. */
+  --color-accent: #28aa9e;
+  --color-accent-dark: #177a70;
+  --color-accent-soft: #a5e9e1;
+  --color-accent-light: #e4f5f3;
+
+  /* Texto */
+  --color-ink: #0c2a36;
+  --color-ink-soft: #4a6874;
+
+  /* Superfícies */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f5fafc;
+
+  /* WhatsApp — cor oficial, usada só no botão flutuante para reconhecimento */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #128c7e;
+
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  /* Fonte de destaque para títulos pontuais — ver `font-oswald`. */
+  --font-oswald: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Compensa o header fixo ao navegar pelas âncoras */
+    scroll-padding-top: 5.5rem;
+  }
+
+  /* Respeita quem desativou animações no sistema */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* Evita qualquer estouro horizontal em telas estreitas */
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Foco visível e consistente para navegação por teclado */
+  :focus-visible {
+    outline: 3px solid var(--color-accent-dark);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: #ffffff;
+  }
+}
