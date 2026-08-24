@@ -14,18 +14,11 @@ import { WhatsAppFlutuante } from "@/components/WhatsAppFlutuante";
 import { buscarAvaliacoesGoogle } from "@/lib/avaliacoes-google";
 
 /**
- * Jornada da página, na ordem em que as objeções aparecem:
+ * Ordem das seções na página — ver histórico de commits para o raciocínio
+ * por trás da ordem atual.
  *
- *   Hero ............ o que é, para quem, benefício e próxima ação
- *   Sobre ........... "posso confiar meu animal a vocês?"
- *   Atendimentos .... "vocês resolvem o que meu pet tem?"
- *   Estrutura ....... prova visual do que os Atendimentos prometem
- *   Contato ......... converter, com três canais possíveis
- *   Como funciona ... "e se for complicado / eu não souber explicar?"
- *   Depoimentos ..... "outras pessoas já confiaram?"  (some se não houver)
- *   Dúvidas ......... objeções pontuais que ainda travam a decisão
- *   Diferenciais .... "por que aqui e não em outro lugar?"
- *   Localização ..... "como eu chego aí?"
+ *   Hero, Sobre, Contato, Estrutura, Atendimentos, Como funciona,
+ *   Depoimentos, Dúvidas, Diferenciais, Localização
  */
 export default async function Home() {
   const avaliacoesGoogle = await buscarAvaliacoesGoogle();
@@ -44,9 +37,9 @@ export default async function Home() {
       <main id="conteudo" className="flex-1">
         <Hero />
         <Sobre />
-        <Atendimentos />
-        <Estrutura />
         <Contato />
+        <Estrutura />
+        <Atendimentos />
         <ComoFunciona />
         <Depoimentos avaliacoesGoogle={avaliacoesGoogle} />
         <Duvidas />
