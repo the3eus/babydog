@@ -530,7 +530,8 @@ export const contato = {
     enviar: "Continuar no WhatsApp",
     sucesso:
       "Abrimos o WhatsApp com sua mensagem pronta. Confirme o envio por lá para falar com a nossa recepção.",
-    erro: "Preencha nome, telefone e mensagem, e autorize o contato, para continuar pelo WhatsApp.",
+    erro:
+      "Preencha os campos obrigatórios (e o nome do convênio, se marcado) e autorize o contato para continuar pelo WhatsApp.",
   },
 } as const;
 

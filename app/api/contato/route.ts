@@ -23,6 +23,8 @@ type Lead = {
   nome: string;
   telefone: string;
   pet?: string;
+  convenio?: string;
+  cpf?: string;
   mensagem: string;
 };
 
@@ -66,6 +68,10 @@ export async function POST(requisicao: Request) {
     nome: corpo.nome.trim(),
     telefone: corpo.telefone.trim(),
     pet: textoValido(corpo.pet, 1, 80) ? corpo.pet.trim() : undefined,
+    convenio: textoValido(corpo.convenio, 1, 80)
+      ? corpo.convenio.trim()
+      : undefined,
+    cpf: textoValido(corpo.cpf, 1, 20) ? corpo.cpf.trim() : undefined,
     mensagem: corpo.mensagem.trim(),
   };
 
@@ -104,6 +110,8 @@ export async function POST(requisicao: Request) {
             `Nome: ${lead.nome}`,
             `Telefone: ${lead.telefone}`,
             lead.pet ? `Pet: ${lead.pet}` : null,
+            `Convênio: ${lead.convenio ? lead.convenio : "não tem"}`,
+            lead.cpf ? `CPF do tutor: ${lead.cpf}` : null,
             "",
             lead.mensagem,
             "",

@@ -17,6 +17,16 @@ function formatarTelefone(valor: string): string {
   return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 7)}-${digitos.slice(7)}`;
 }
 
+/** Formata o CPF enquanto o tutor digita: 000.000.000-00 */
+function formatarCpf(valor: string): string {
+  const digitos = valor.replace(/\D/g, "").slice(0, 11);
+  if (digitos.length <= 3) return digitos;
+  if (digitos.length <= 6) return `${digitos.slice(0, 3)}.${digitos.slice(3)}`;
+  if (digitos.length <= 9)
+    return `${digitos.slice(0, 3)}.${digitos.slice(3, 6)}.${digitos.slice(6)}`;
+  return `${digitos.slice(0, 3)}.${digitos.slice(3, 6)}.${digitos.slice(6, 9)}-${digitos.slice(9)}`;
+}
+
 // min/max espelham os mesmos limites de `app/api/contato/route.ts` — sem
 // isso, uma mensagem longa passava na validação do cliente (abria o
 // WhatsApp normalmente), mas o envio em segundo plano pro backend era
@@ -36,6 +46,8 @@ function montarMensagemWhatsApp(dados: {
   nome: string;
   telefone: string;
   pet?: string;
+  convenio?: string;
+  cpf?: string;
   mensagem: string;
 }): string {
   const linhas = [
@@ -45,12 +57,18 @@ function montarMensagemWhatsApp(dados: {
     `Telefone: ${dados.telefone}`,
   ];
   if (dados.pet) linhas.push(`Pet: ${dados.pet}`);
+  // Sempre inclui a linha, sim ou não — poupa a recepção de perguntar nas
+  // primeiras mensagens.
+  linhas.push(`Convênio: ${dados.convenio ? dados.convenio : "não tem"}`);
+  if (dados.cpf) linhas.push(`CPF do tutor: ${dados.cpf}`);
   linhas.push("", dados.mensagem);
   return linhas.join("\n");
 }
 
 export function Contato() {
   const [telefone, setTelefone] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [temConvenio, setTemConvenio] = useState(false);
   const [estado, setEstado] = useState<Estado>("parado");
 
   function enviar(evento: FormEvent<HTMLFormElement>) {
@@ -64,11 +82,13 @@ export function Contato() {
     const nome = dados.get("nome");
     const tel = dados.get("telefone");
     const mensagem = dados.get("mensagem");
+    const convenio = dados.get("convenio");
 
     if (
       !textoValido(nome, 2, 120) ||
       !textoValido(tel, 8, 24) ||
       !textoValido(mensagem, 3, 2000) ||
+      (dados.get("temConvenio") && !textoValido(convenio, 1, 80)) ||
       !dados.get("consentimento")
     ) {
       setEstado("erro");
@@ -76,6 +96,7 @@ export function Contato() {
     }
 
     const pet = dados.get("pet");
+    const cpfValor = dados.get("cpf");
 
     // Precisa acontecer de forma síncrona, ainda dentro do clique — se
     // esperar uma resposta de rede antes, o navegador bloqueia o pop-up.
@@ -85,6 +106,10 @@ export function Contato() {
           nome: String(nome).trim(),
           telefone: String(tel).trim(),
           pet: textoValido(pet, 1, 80) ? String(pet).trim() : undefined,
+          convenio: textoValido(convenio, 1, 80)
+            ? String(convenio).trim()
+            : undefined,
+          cpf: textoValido(cpfValor, 1, 20) ? String(cpfValor).trim() : undefined,
           mensagem: String(mensagem).trim(),
         }),
       ),
@@ -96,6 +121,8 @@ export function Contato() {
     setEstado("sucesso");
     form.reset();
     setTelefone("");
+    setCpf("");
+    setTemConvenio(false);
 
     // Melhor-esforço: se um webhook ou e-mail estiver configurado (ver
     // .env.example), o lead também fica registrado lá. Não bloqueia nem
@@ -269,6 +296,46 @@ export function Contato() {
                   />
 
                   <div>
+                    <label className="flex cursor-pointer items-center gap-3 text-sm font-semibold text-ink">
+                      <input
+                        type="checkbox"
+                        name="temConvenio"
+                        checked={temConvenio}
+                        onChange={(e) => setTemConvenio(e.target.checked)}
+                        className="size-5 shrink-0 rounded accent-brand"
+                      />
+                      Meu pet tem convênio
+                    </label>
+                    {temConvenio && (
+                      <div className="mt-3">
+                        <Campo
+                          id="convenio"
+                          nome="convenio"
+                          rotulo="Qual convênio?"
+                          placeholder="Ex: Petlove Saúde"
+                          obrigatorio
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <Campo
+                      id="cpf"
+                      nome="cpf"
+                      rotulo="CPF do tutor"
+                      inputMode="numeric"
+                      placeholder="000.000.000-00"
+                      valor={cpf}
+                      aoMudar={(v) => setCpf(formatarCpf(v))}
+                      opcional
+                    />
+                    <p className="mt-1.5 text-xs leading-relaxed text-ink-soft">
+                      Só usamos para consultar seu convênio, se você tiver um.
+                    </p>
+                  </div>
+
+                  <div>
                     <label
                       htmlFor="mensagem"
                       className="block text-sm font-semibold text-ink"
@@ -341,7 +408,7 @@ function Campo({
   rotulo: string;
   tipo?: string;
   autoComplete?: string;
-  inputMode?: "tel" | "text" | "email";
+  inputMode?: "tel" | "text" | "email" | "numeric";
   placeholder?: string;
   valor?: string;
   aoMudar?: (valor: string) => void;

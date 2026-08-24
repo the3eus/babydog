@@ -20,11 +20,11 @@ import { buscarAvaliacoesGoogle } from "@/lib/avaliacoes-google";
  *   Sobre ........... "posso confiar meu animal a vocês?"
  *   Atendimentos .... "vocês resolvem o que meu pet tem?"
  *   Estrutura ....... prova visual do que os Atendimentos prometem
- *   Diferenciais .... "por que aqui e não em outro lugar?"
+ *   Contato ......... converter, com três canais possíveis
  *   Como funciona ... "e se for complicado / eu não souber explicar?"
  *   Depoimentos ..... "outras pessoas já confiaram?"  (some se não houver)
  *   Dúvidas ......... objeções pontuais que ainda travam a decisão
- *   Contato ......... converter, com três canais possíveis
+ *   Diferenciais .... "por que aqui e não em outro lugar?"
  *   Localização ..... "como eu chego aí?"
  */
 export default async function Home() {
@@ -46,11 +46,11 @@ export default async function Home() {
         <Sobre />
         <Atendimentos />
         <Estrutura />
-        <Diferenciais />
+        <Contato />
         <ComoFunciona />
         <Depoimentos avaliacoesGoogle={avaliacoesGoogle} />
         <Duvidas />
-        <Contato />
+        <Diferenciais />
         <Localizacao />
       </main>
 
