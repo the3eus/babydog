@@ -19,14 +19,11 @@ export function Hero() {
     <section id="topo" className="relative overflow-hidden pt-20">
       <HeroVideoFundo />
 
-      {/* Camada escura: mantém o texto branco legível sobre o vídeo, em
-          qualquer ponto da animação. No mobile escurece mais cedo (a partir
-          de ~60% da altura) pra apagar o "Baby Dog" do vídeo bem onde ele
-          cairia atrás dos selos de confiança ("Aberto 24h" etc.) — o cão
-          continua visível lá em cima, só a marca escrita some. */}
+      {/* Camada escura: mantém o texto branco legível sobre o vídeo,
+          em qualquer ponto da animação. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-brand-darker/55 via-brand-darker/97 via-55% to-brand-darker to-72% sm:from-brand-darker/60 sm:via-brand-darker/72 sm:via-50% sm:to-brand-darker/85 sm:to-100%"
+        className="absolute inset-0 bg-gradient-to-b from-brand-darker/60 via-brand-darker/72 to-brand-darker/85"
       />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-10 sm:px-6 lg:pb-24 lg:pt-16">
@@ -69,15 +66,21 @@ export function Hero() {
               rotulo={hero.ctaPrimario}
               className="w-full text-[1.05rem] sm:w-auto"
             />
-            <BotaoTelefone
-              origem="hero"
-              rotulo={hero.ctaSecundario}
-              className="w-full sm:w-auto"
-            />
+            {/* Abaixo do WhatsApp, tudo até a próxima seção some no
+                mobile — deixa só o essencial (título + CTA) no primeiro
+                viewport de celular; volta a aparecer normalmente a partir
+                de `sm`. */}
+            <div className="hidden sm:contents">
+              <BotaoTelefone
+                origem="hero"
+                rotulo={hero.ctaSecundario}
+                className="w-full sm:w-auto"
+              />
+            </div>
           </div>
 
           {/* Sinalização de confiança logo abaixo da CTA */}
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+          <ul className="mt-8 hidden flex-wrap gap-x-6 gap-y-3 sm:flex">
             {hero.selos.map((selo) => (
               <li
                 key={selo}
@@ -90,7 +93,7 @@ export function Hero() {
           </ul>
 
           {/* Reforça o 24h no ponto de maior atenção */}
-          <div className="mt-7 inline-flex items-center gap-2.5 rounded-2xl bg-white px-4 py-3 shadow-xl shadow-black/10">
+          <div className="mt-7 hidden items-center gap-2.5 rounded-2xl bg-white px-4 py-3 shadow-xl shadow-black/10 sm:inline-flex">
             <span className="relative flex size-2.5 shrink-0">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-70" />
               <span className="relative inline-flex size-2.5 rounded-full bg-accent-dark" />
@@ -104,7 +107,7 @@ export function Hero() {
       </div>
 
       {/* Indicador de rolagem */}
-      <div className="relative flex justify-center pb-10">
+      <div className="relative hidden justify-center pb-10 sm:flex">
         <a
           href="#a-clinica"
           aria-label="Ver mais sobre a clínica"

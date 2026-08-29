@@ -49,8 +49,10 @@ chegarem depoimentos reais.
 
 - Build e ESLint sem erros nem avisos.
 - Sem rolagem horizontal em 375px.
-- Em 375x812, o título, o subtítulo, as duas CTAs e os selos de confiança
-  cabem no primeiro viewport.
+- Em 375x812, o título, o subtítulo e o CTA de WhatsApp cabem no primeiro
+  viewport (decisão do cliente: no mobile, o segundo CTA, os selos de
+  confiança e o "Aberto agora" ficam escondidos abaixo do WhatsApp — só
+  aparecem a partir de `sm`).
 - Contraste WCAG 2.1 AA conferido nos 134 textos da página: nenhuma falha.
 - Alvos de toque dentro do mínimo de 24px do WCAG 2.2.
 - Menu mobile, acordeão de dúvidas e validação do formulário testados.
