@@ -90,7 +90,7 @@ export function Header() {
           aria-expanded={aberto}
           aria-controls="menu-mobile"
           aria-label={aberto ? "Fechar menu" : "Abrir menu"}
-          className="inline-flex size-11 items-center justify-center rounded-full text-brand transition-colors hover:bg-brand-light md:hidden"
+          className="inline-flex size-11 items-center justify-center rounded-full text-brand transition-colors hover:bg-brand-light lg:hidden"
         >
           {aberto ? (
             <IconeFechar className="size-7" />
@@ -104,7 +104,7 @@ export function Header() {
       <div
         id="menu-mobile"
         hidden={!aberto}
-        className="border-t border-brand-light bg-white md:hidden"
+        className="border-t border-brand-light bg-white lg:hidden"
       >
         <nav
           aria-label="Navegação principal"

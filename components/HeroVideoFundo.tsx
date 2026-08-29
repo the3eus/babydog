@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useMediaQuery } from "@/lib/use-media-query";
 import { usePrefereMenosMovimento } from "@/lib/use-reduced-motion";
 import posterFrame from "@/public/hero-video-poster.webp";
+import posterFrameMobile from "@/public/hero-video-poster-mobile.webp";
 
 /**
  * Fundo em vídeo da Hero: toca uma vez a animação oficial da marca (a
@@ -15,6 +17,14 @@ import posterFrame from "@/public/hero-video-poster.webp";
  * página (o vídeo original foi reprocessado sem a trilha, ver
  * `public/hero-video.mp4`).
  *
+ * Abaixo de `sm` a seção fica muito mais alta que larga (retrato), enquanto
+ * o vídeo original é widescreen (16:9) — cobrindo a seção toda, o corte
+ * automático (`object-cover`) ampliava demais e cortava o "Baby Dog". Por
+ * isso o mobile usa `hero-video-mobile.mp4`/`hero-video-poster-mobile.webp`
+ * (gerados por `scripts/gen-hero-mobile.js`), uma versão com as laterais já
+ * cortadas (3:4) exibida com `object-contain`: a marca aparece inteira e
+ * maior do que ficaria só reduzindo a escala do vídeo original.
+ *
  * Quem prefere menos movimento na tela (`prefers-reduced-motion`) nunca vê
  * o vídeo tocar — recebe direto a imagem estática do último frame.
  */
@@ -22,6 +32,7 @@ export function HeroVideoFundo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [terminouPlayback, setTerminouPlayback] = useState(false);
   const prefereMenosMovimento = usePrefereMenosMovimento();
+  const ehMobile = useMediaQuery("(max-width: 639px)");
 
   const mostrarImagemEstatica = terminouPlayback || prefereMenosMovimento;
 
@@ -48,14 +59,24 @@ export function HeroVideoFundo() {
   return (
     <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-brand-tint">
       {/* Camada de baixo: imagem estática do último frame. Sempre presente,
-          então funciona mesmo se o autoplay for bloqueado. */}
+          então funciona mesmo se o autoplay for bloqueado. Duas versões
+          (recorte mobile vs. quadro original) porque são dois enquadramentos
+          diferentes, não só tamanhos diferentes da mesma imagem. */}
+      <Image
+        src={posterFrameMobile}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-contain sm:hidden"
+      />
       <Image
         src={posterFrame}
         alt=""
         fill
         priority
         sizes="100vw"
-        className="object-cover"
+        className="hidden object-cover sm:block"
       />
 
       <video
@@ -63,12 +84,16 @@ export function HeroVideoFundo() {
         muted
         playsInline
         preload="auto"
-        poster="/hero-video-poster.webp"
+        poster={ehMobile ? "/hero-video-poster-mobile.webp" : "/hero-video-poster.webp"}
         onEnded={() => setTerminouPlayback(true)}
-        className={`absolute inset-0 size-full object-cover transition-opacity duration-500 ${
+        className={`absolute inset-0 size-full object-contain transition-opacity duration-500 sm:object-cover ${
           mostrarImagemEstatica ? "opacity-0" : "opacity-100"
         }`}
       >
+        {/* Recorte vertical (laterais cortadas) para telas < 640px, quadro
+            original widescreen a partir daí — precisa bater com o `sm:` de
+            cima e com os breakpoints usados no resto da Hero. */}
+        <source src="/hero-video-mobile.mp4" type="video/mp4" media="(max-width: 639px)" />
         <source src="/hero-video.mp4" type="video/mp4" />
       </video>
     </div>
