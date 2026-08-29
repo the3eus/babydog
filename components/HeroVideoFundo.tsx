@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useMediaQuery } from "@/lib/use-media-query";
 import { usePrefereMenosMovimento } from "@/lib/use-reduced-motion";
 import posterFrame from "@/public/hero-video-poster.webp";
 import posterFrameMobile from "@/public/hero-video-poster-mobile.webp";
@@ -31,12 +30,20 @@ import posterFrameMobile from "@/public/hero-video-poster-mobile.webp";
  *
  * Quem prefere menos movimento na tela (`prefers-reduced-motion`) nunca vê
  * o vídeo tocar — recebe direto a imagem estática do último frame.
+ *
+ * Nenhuma das duas `<Image>` nem o `<video>` usam `ehMobile`/JS pra decidir
+ * o que mostrar — só classes CSS (`sm:hidden` / `hidden sm:block`), porque
+ * o navegador resolve isso na hora a partir da media query real, sem
+ * depender do React já ter hidratado. Um `poster` no `<video>` calculado a
+ * partir de estado React (que assume `false` no SSR, ver
+ * `lib/use-reduced-motion.ts`) chegou a apontar pro poster **desktop** no
+ * primeiro paint em celular, por cima da `<Image>` mobile correta —
+ * removido por causa disso; a `<Image>` de baixo já cobre o mesmo papel.
  */
 export function HeroVideoFundo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [terminouPlayback, setTerminouPlayback] = useState(false);
   const prefereMenosMovimento = usePrefereMenosMovimento();
-  const ehMobile = useMediaQuery("(max-width: 639px)");
 
   const mostrarImagemEstatica = terminouPlayback || prefereMenosMovimento;
 
@@ -65,14 +72,16 @@ export function HeroVideoFundo() {
       {/* Camada de baixo: imagem estática do último frame. Sempre presente,
           então funciona mesmo se o autoplay for bloqueado. Duas versões
           (vertical vs. widescreen) porque são dois enquadramentos
-          diferentes, não só tamanhos diferentes da mesma imagem. `priority`
-          só na que a tela atual realmente mostra — nas duas ao mesmo tempo,
-          o Next.js pré-carregava a imagem escondida à toa. */}
+          diferentes, não só tamanhos diferentes da mesma imagem — qual
+          delas aparece é decidido só por CSS (`sm:hidden`/`sm:block`), sem
+          depender de JS. `priority` nas duas: cada uma é só um poster leve,
+          e as duas competirem por um instante custa bem menos do que correr
+          o risco de priorizar a errada. */}
       <Image
         src={posterFrameMobile}
         alt=""
         fill
-        priority={ehMobile}
+        priority
         sizes="100vw"
         className="object-contain sm:hidden"
       />
@@ -80,7 +89,7 @@ export function HeroVideoFundo() {
         src={posterFrame}
         alt=""
         fill
-        priority={!ehMobile}
+        priority
         sizes="100vw"
         className="hidden object-cover sm:block"
       />
@@ -90,7 +99,6 @@ export function HeroVideoFundo() {
         muted
         playsInline
         preload="auto"
-        poster={ehMobile ? "/hero-video-poster-mobile.webp" : "/hero-video-poster.webp"}
         onEnded={() => setTerminouPlayback(true)}
         className={`absolute inset-0 size-full object-contain transition-opacity duration-500 sm:object-cover ${
           mostrarImagemEstatica ? "opacity-0" : "opacity-100"
