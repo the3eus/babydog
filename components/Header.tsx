@@ -64,7 +64,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <a
             href={linkTelefone}
             onClick={() => rastrear("clique_telefone", { origem: "header" })}
