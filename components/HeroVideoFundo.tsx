@@ -27,6 +27,9 @@ import posterFrameMobile from "@/public/hero-video-poster-mobile.webp";
  * leve redução (o vídeo passa a caber pela largura, sem esticar até a
  * altura toda da seção) — bem menor do que a redução do fundo anterior,
  * já que a proporção do vídeo é bem mais próxima da seção agora.
+ * `scale-110` (só no mobile) encolhe essa folga: o `overflow-hidden` do
+ * contêiner corta o excesso, então a faixa vazia nas bordas fica menor,
+ * às custas de um pouco de margem entre a marca e o quadro do vídeo.
  *
  * Quem prefere menos movimento na tela (`prefers-reduced-motion`) nunca vê
  * o vídeo tocar — recebe direto a imagem estática do último frame.
@@ -83,7 +86,7 @@ export function HeroVideoFundo() {
         fill
         priority
         sizes="100vw"
-        className="object-contain sm:hidden"
+        className="scale-110 object-contain sm:hidden"
       />
       <Image
         src={posterFrame}
@@ -100,7 +103,7 @@ export function HeroVideoFundo() {
         playsInline
         preload="auto"
         onEnded={() => setTerminouPlayback(true)}
-        className={`absolute inset-0 size-full object-contain transition-opacity duration-500 sm:object-cover ${
+        className={`absolute inset-0 size-full scale-110 object-contain transition-opacity duration-500 sm:scale-100 sm:object-cover ${
           mostrarImagemEstatica ? "opacity-0" : "opacity-100"
         }`}
       >
