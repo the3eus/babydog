@@ -19,11 +19,14 @@ export function Hero() {
     <section id="topo" className="relative overflow-hidden pt-20">
       <HeroVideoFundo />
 
-      {/* Camada escura: mantém o texto branco legível sobre o vídeo,
-          em qualquer ponto da animação. */}
+      {/* Camada escura: mantém o texto branco legível sobre o vídeo, em
+          qualquer ponto da animação. No mobile escurece mais cedo (a partir
+          de ~60% da altura) pra apagar o "Baby Dog" do vídeo bem onde ele
+          cairia atrás dos selos de confiança ("Aberto 24h" etc.) — o cão
+          continua visível lá em cima, só a marca escrita some. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-brand-darker/60 via-brand-darker/72 to-brand-darker/85"
+        className="absolute inset-0 bg-gradient-to-b from-brand-darker/55 via-brand-darker/97 via-55% to-brand-darker to-72% sm:from-brand-darker/60 sm:via-brand-darker/72 sm:via-50% sm:to-brand-darker/85 sm:to-100%"
       />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-10 sm:px-6 lg:pb-24 lg:pt-16">
