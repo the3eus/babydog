@@ -17,21 +17,13 @@ import posterFrameMobile from "@/public/hero-video-poster-mobile.webp";
  * página (o vídeo original foi reprocessado sem a trilha, ver
  * `public/hero-video.mp4`).
  *
- * Abaixo de `sm` a seção fica muito mais alta que larga (retrato), enquanto
- * o vídeo original é widescreen (16:9) — cobrindo a seção toda, o corte
- * automático (`object-cover`) ampliava demais e cortava o "Baby Dog". Por
- * isso o mobile usa `hero-video-mobile.mp4`/`hero-video-poster-mobile.webp`
- * (gerados por `scripts/gen-hero-mobile.js`), uma versão com as laterais já
- * cortadas (3:4) exibida com `object-contain`: a marca aparece inteira e
- * maior do que ficaria só reduzindo a escala do vídeo original.
- *
- * Só que "inteira" com `object-contain` numa seção retrato bem alta também
- * significa "grande" — preenchendo por largura, o vídeo passava de 500px de
- * altura e se estendia por trás do título, do parágrafo e dos botões de
- * CTA, competindo com eles. Por isso o fundo fica limitado a uma faixa no
- * topo da seção (`h-80`, 320px) em vez de cobrir a seção toda — abaixo
- * disso é só o degradê escuro sólido, sem vídeo nenhum, então os CTAs nunca
- * ficam por cima da logo.
+ * Abaixo de `sm` a seção fica retrato (bem mais alta que larga) e o vídeo
+ * original é widescreen (16:9) — cobrindo a seção toda com `object-cover`,
+ * o corte automático ampliava demais e cortava o "Baby Dog". Por isso o
+ * mobile usa `hero-video-mobile.mp4`/`hero-video-poster-mobile.webp`
+ * (gerados por `scripts/gen-hero-mobile-poster.js` a partir do vídeo
+ * vertical enviado pela clínica, 720x1280/9:16) em vez do vídeo widescreen:
+ * já nascendo em pé, cobre a seção inteira sem precisar ampliar quase nada.
  *
  * Quem prefere menos movimento na tela (`prefers-reduced-motion`) nunca vê
  * o vídeo tocar — recebe direto a imagem estática do último frame.
@@ -65,10 +57,10 @@ export function HeroVideoFundo() {
   }, [prefereMenosMovimento, terminouPlayback]);
 
   return (
-    <div aria-hidden="true" className="absolute inset-x-0 top-0 h-80 overflow-hidden bg-brand-tint sm:inset-0 sm:h-auto">
+    <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-brand-tint">
       {/* Camada de baixo: imagem estática do último frame. Sempre presente,
           então funciona mesmo se o autoplay for bloqueado. Duas versões
-          (recorte mobile vs. quadro original) porque são dois enquadramentos
+          (vertical vs. widescreen) porque são dois enquadramentos
           diferentes, não só tamanhos diferentes da mesma imagem. `priority`
           só na que a tela atual realmente mostra — nas duas ao mesmo tempo,
           o Next.js pré-carregava a imagem escondida à toa. */}
@@ -78,7 +70,7 @@ export function HeroVideoFundo() {
         fill
         priority={ehMobile}
         sizes="100vw"
-        className="object-contain sm:hidden"
+        className="object-cover sm:hidden"
       />
       <Image
         src={posterFrame}
@@ -96,13 +88,13 @@ export function HeroVideoFundo() {
         preload="auto"
         poster={ehMobile ? "/hero-video-poster-mobile.webp" : "/hero-video-poster.webp"}
         onEnded={() => setTerminouPlayback(true)}
-        className={`absolute inset-0 size-full object-contain transition-opacity duration-500 sm:object-cover ${
+        className={`absolute inset-0 size-full object-cover transition-opacity duration-500 ${
           mostrarImagemEstatica ? "opacity-0" : "opacity-100"
         }`}
       >
-        {/* Recorte vertical (laterais cortadas) para telas < 640px, quadro
-            original widescreen a partir daí — precisa bater com o `sm:` de
-            cima e com os breakpoints usados no resto da Hero. */}
+        {/* Vídeo vertical (9:16) para telas < 640px, widescreen original a
+            partir daí — precisa bater com o `sm:` de cima e com os
+            breakpoints usados no resto da Hero. */}
         <source src="/hero-video-mobile.mp4" type="video/mp4" media="(max-width: 639px)" />
         <source src="/hero-video.mp4" type="video/mp4" />
       </video>
