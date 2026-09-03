@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Scripts de geração de assets (CJS, rodam fora do app com `node scripts/*.js`).
     "scripts/**",
+    // App estático independente do site (JS de navegador, sem build).
+    "crm-consorcio/**",
   ]),
 ]);
 
