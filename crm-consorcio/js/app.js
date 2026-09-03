@@ -53,14 +53,14 @@ seletorMes.addEventListener("change", () => {
 function renderizarConfig() {
   const cfg = Dados.config();
   telas.config.innerHTML = `
-    <h2 class="secao-titulo">Metas do mes</h2>
+    <h2 class="secao-titulo">Metas do mês</h2>
     <div class="cartao">
-      <div class="cartao__rotulo">Meta de comissao</div>
+      <div class="cartao__rotulo">Meta de comissão</div>
       <div class="cartao__valor cartao__valor--menor">${Dashboard.moedaCheia.format(cfg.metaComissao)}</div>
       <div class="cartao__nota">Equivale a ${Dashboard.moeda.format(cfg.metaComissao / Dados.TAXA_COMISSAO)} em cartas fechadas.</div>
     </div>
     <div class="cartao" style="margin-top:10px">
-      <div class="cartao__rotulo">Meta de reunioes marcadas</div>
+      <div class="cartao__rotulo">Meta de reuniões marcadas</div>
       <div class="cartao__valor cartao__valor--menor">${cfg.metaReunioes}</div>
     </div>
     <button class="botao botao--bloco" style="margin-top:12px" data-acao="editar-meta">Editar metas</button>
@@ -68,7 +68,7 @@ function renderizarConfig() {
     <h2 class="secao-titulo">Backup dos dados</h2>
     <div class="cartao">
       <div class="cartao__nota" style="margin:0 0 12px">
-        Os dados ficam so neste navegador. Se limpar o cache ou trocar de celular,
+        Os dados ficam só neste navegador. Se limpar o cache ou trocar de celular,
         eles somem. Exporte de vez em quando.
       </div>
       <button class="botao botao--secundario botao--bloco" data-acao="exportar">Exportar arquivo (.json)</button>
@@ -78,15 +78,15 @@ function renderizarConfig() {
 
     <h2 class="secao-titulo">Zona de risco</h2>
     <button class="botao botao--perigo botao--bloco" data-acao="apagar">Apagar todos os dados</button>
-    <p class="aviso">Versao 1 &middot; ${Dados.listarLeads().length} lead(s) guardado(s) neste aparelho.</p>`;
+    <p class="aviso">Versão 1 &middot; ${Dados.listarLeads().length} lead(s) guardado(s) neste aparelho.</p>`;
 }
 
 function renderizarLeads() {
   telas.leads.innerHTML = `
     <div class="vazio">
       <h3>Lista de leads</h3>
-      <p>Proxima etapa: lista com filtro por status e canal, ordenacao por data
-      e o formulario rapido de cadastro. Valide o painel primeiro.</p>
+      <p>Próxima etapa: lista com filtro por status e canal, ordenação por data
+      e o formulário rápido de cadastro. Valide o painel primeiro.</p>
       <button class="botao botao--fantasma botao--bloco" data-tela-ir="dashboard">Voltar ao painel</button>
     </div>`;
 }
@@ -143,7 +143,7 @@ document.addEventListener("click", (evento) => {
   } else if (acao === "importar") {
     document.getElementById("arquivo-importar").click();
   } else if (acao === "apagar") {
-    if (confirm("Apagar todos os leads e metricas deste aparelho? Nao da pra desfazer.")) {
+    if (confirm("Apagar todos os leads e métricas deste aparelho? Não dá pra desfazer.")) {
       Dados.apagarTudo();
     }
   }
@@ -159,7 +159,7 @@ document.addEventListener("change", (evento) => {
       Dados.importar(leitor.result);
       alert("Dados importados.");
     } catch (erro) {
-      alert("Arquivo invalido: " + erro.message);
+      alert("Arquivo inválido: " + erro.message);
     }
   };
   leitor.readAsText(arquivo);

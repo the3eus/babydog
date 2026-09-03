@@ -3,14 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1e3a8a" />
-  <title>CRM Consorcio</title>
+  <meta name="theme-color" content="#12211b" />
+  <title>CRM Consórcio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
   <link rel="stylesheet" href="css/estilo.css" />
 </head>
 <body>
   <header class="topo">
-    <div class="topo__marca">CRM Consorcio<span>Prospeccao imobiliaria</span></div>
-    <select class="seletor-mes" id="seletor-mes" aria-label="Mes de referencia"></select>
+    <div class="topo__marca">CRM Consórcio<span>Prospecção imobiliária</span></div>
+    <select class="seletor-mes" id="seletor-mes" aria-label="Mês de referência"></select>
   </header>
 
   <main class="conteudo">
@@ -19,30 +22,36 @@
 
     <!-- Fases seguintes -->
     <section class="tela" id="tela-leads" hidden aria-label="Leads"></section>
-    <section class="tela" id="tela-config" hidden aria-label="Configuracoes"></section>
+    <section class="tela" id="tela-config" hidden aria-label="Configurações"></section>
   </main>
 
-  <nav class="barra" aria-label="Navegacao principal">
+  <nav class="barra" aria-label="Navegação principal">
     <button class="barra__item" data-tela="dashboard" aria-current="page">
-      <span class="barra__icone" aria-hidden="true">📊</span>Painel
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 20V13M10 20V5M16 20V10M22 20H2" />
+      </svg>Painel
     </button>
     <button class="barra__item" data-tela="leads">
-      <span class="barra__icone" aria-hidden="true">👥</span>Leads
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="8" r="3.2" /><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" /><path d="M16 5.5a3.2 3.2 0 0 1 0 6M17.5 14.8c2.1.7 3.5 2.6 3.5 5.2" />
+      </svg>Leads
     </button>
     <button class="barra__item" data-tela="config">
-      <span class="barra__icone" aria-hidden="true">⚙️</span>Ajustes
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h9M18 7h2M4 17h3M12 17h8" /><circle cx="16" cy="7" r="2.2" /><circle cx="9.5" cy="17" r="2.2" />
+      </svg>Ajustes
     </button>
   </nav>
 
   <dialog class="dialogo" id="dialogo-meta">
     <form method="dialog" id="form-meta">
-      <h2>Minhas metas do mes</h2>
+      <h2>Minhas metas do mês</h2>
       <label class="campo">
-        <span>Meta de comissao (R$)</span>
+        <span>Meta de comissão (R$)</span>
         <input type="number" name="metaComissao" min="0" step="100" inputmode="numeric" required />
       </label>
       <label class="campo">
-        <span>Meta de reunioes marcadas</span>
+        <span>Meta de reuniões marcadas</span>
         <input type="number" name="metaReunioes" min="0" step="1" inputmode="numeric" required />
       </label>
       <div class="dialogo__acoes">

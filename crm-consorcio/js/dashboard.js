@@ -48,10 +48,10 @@ function blocoAcaoHoje(m) {
       <div class="acao-hoje__numero" id="contador-hoje">${m.contatosHoje}</div>
       <div class="acao-hoje__texto">
         <strong>Contatos de hoje</strong>
-        <small>${m.contatosMes} no mes &middot; ligacoes e reunioes</small>
+        <small>${m.contatosMes} no mês</small>
       </div>
       <button class="botao-mini" data-acao="desfazer-contato" aria-label="Remover um contato de hoje">&minus;</button>
-      <button class="botao" data-acao="registrar-contato">+1 contato</button>
+      <button class="botao" data-acao="registrar-contato">+1</button>
     </div>`;
 }
 
@@ -59,47 +59,53 @@ function blocoComissao(m) {
   const pct = m.percentualMetaComissao;
   const largura = pct === null ? 0 : Math.min(100, Math.round(pct * 100));
   const falta = m.metaComissao - m.comissao;
+  const meta = m.recorteMensal
+    ? `<div class="meta">
+         <div class="meta__topo">
+           <span>Meta ${moeda.format(m.metaComissao)}</span>
+           <span>${percentual(pct)}${falta > 0 ? ` &middot; faltam ${moeda.format(falta)}` : " &middot; batida"}</span>
+         </div>
+         <div class="meta__barra"><div class="meta__preenchimento" style="width:${largura}%"></div></div>
+       </div>`
+    : "";
   return `
-    <div class="cartao cartao--destaque">
-      <div class="cartao__rotulo">Comissao projetada (1%)</div>
-      <div class="cartao__valor">${moedaCheia.format(m.comissao)}</div>
-      <div class="cartao__nota">
-        ${moeda.format(m.volumeFechado)} em cartas fechadas &middot;
-        ${moeda.format(m.comissaoPotencial)} ainda em aberto
+    <div class="comissao">
+      <div class="comissao__rotulo">Comissão projetada &middot; 1%</div>
+      <div class="comissao__valor">${moedaCheia.format(m.comissao)}</div>
+      <div class="comissao__nota">
+        Sobre <b>${moeda.format(m.volumeFechado)}</b> em cartas fechadas.
+        Mais <b>${moeda.format(m.comissaoPotencial)}</b> em potencial no funil.
       </div>
-      ${m.recorteMensal ? `
-      <div class="meta">
-        <div class="meta__topo">
-          <span>Meta: ${moeda.format(m.metaComissao)}</span>
-          <span>${percentual(pct)}${falta > 0 ? ` &middot; faltam ${moeda.format(falta)}` : " &middot; batida 🎯"}</span>
-        </div>
-        <div class="meta__barra"><div class="meta__preenchimento" style="width:${largura}%"></div></div>
-      </div>` : ""}
+      ${meta}
     </div>`;
 }
 
-function blocoCartoes(m) {
+function blocoMetricas(m) {
   const pctReunioes = m.percentualMetaReunioes;
   const larguraReunioes = pctReunioes === null ? 0 : Math.min(100, Math.round(pctReunioes * 100));
+  const barraReunioes = m.recorteMensal
+    ? `<div class="meta meta--clara" style="margin-top:8px">
+         <div class="meta__barra"><div class="meta__preenchimento" style="width:${larguraReunioes}%"></div></div>
+       </div>`
+    : "";
   return `
-    <div class="grade">
-      ${blocoComissao(m)}
-      <div class="cartao">
-        <div class="cartao__rotulo">Leads no mes</div>
-        <div class="cartao__valor">${m.totalLeads}</div>
-        <div class="cartao__nota">${m.fechados} fechados &middot; ${m.perdidos} perdidos</div>
+    <div class="metricas">
+      <div class="metrica">
+        <div class="metrica__rotulo">Leads<small>${m.fechados} fechados &middot; ${m.perdidos} perdidos</small></div>
+        <div class="metrica__valor">${m.totalLeads}</div>
       </div>
-      <div class="cartao">
-        <div class="cartao__rotulo">Taxa de conversao</div>
-        <div class="cartao__valor">${percentual(m.taxaConversao)}</div>
-        <div class="cartao__nota">${m.fechados} de ${m.reunioesRealizadas} reunioes realizadas</div>
+      <div class="metrica">
+        <div class="metrica__rotulo">Taxa de conversão<small>fechados / reuniões realizadas</small></div>
+        <div class="metrica__valor">${percentual(m.taxaConversao)} <em>${m.fechados}/${m.reunioesRealizadas}</em></div>
       </div>
-      <div class="cartao" style="grid-column: 1 / -1;">
-        <div class="cartao__rotulo">Reunioes marcadas</div>
-        <div class="cartao__valor cartao__valor--menor">${m.reunioesMarcadas}${m.recorteMensal ? ` <span style="font-size:.9rem;font-weight:600;color:var(--texto-fraco)">de ${m.metaReunioes}</span>` : ""}</div>
-        ${m.recorteMensal ? `<div class="meta meta--clara">
-          <div class="meta__barra"><div class="meta__preenchimento" style="width:${larguraReunioes}%"></div></div>
-        </div>` : ""}
+      <div class="metrica metrica--pilha">
+        <div class="metrica__rotulo">Reuniões marcadas${m.recorteMensal ? `<small>meta de ${m.metaReunioes} no mês</small>` : ""}</div>
+        <div class="metrica__valor">${m.reunioesMarcadas}${m.recorteMensal ? ` <em>de ${m.metaReunioes}</em>` : ""}</div>
+        ${barraReunioes}
+      </div>
+      <div class="metrica">
+        <div class="metrica__rotulo">Reuniões realizadas<small>já aconteceram</small></div>
+        <div class="metrica__valor">${m.reunioesRealizadas}</div>
       </div>
     </div>`;
 }
@@ -111,13 +117,17 @@ function blocoMornos() {
     .slice(0, 5)
     .map((lead) => {
       const dias = Dados.diasDesde(lead.dataUltimaInteracao);
-      return `<li><a href="#" data-lead="${lead.id}" style="color:#92400e;font-weight:600;text-decoration:none">${escapar(lead.nome || "Sem nome")}</a><span>${dias} dias</span></li>`;
+      return `<li><a href="#" data-lead="${lead.id}">${escapar(lead.nome || "Sem nome")}</a><time>${dias} dias</time></li>`;
     })
     .join("");
-  const resto = mornos.length > 5 ? `<li><a href="#" data-acao="ver-mornos" style="color:#92400e">Ver todos os ${mornos.length}</a><span></span></li>` : "";
+  const resto =
+    mornos.length > 5
+      ? `<li><a href="#" data-acao="ver-mornos">Ver todos os ${mornos.length}</a><time></time></li>`
+      : "";
   return `
-    <div class="alerta-mornos">
-      <div class="alerta-mornos__titulo">🔥 ${mornos.length} lead${mornos.length > 1 ? "s" : ""} esfriando</div>
+    <div class="mornos">
+      <div class="mornos__titulo"><span class="mornos__pino" aria-hidden="true"></span>
+        ${mornos.length} lead${mornos.length > 1 ? "s" : ""} sem contato há mais de ${Dados.DIAS_MORNO} dias</div>
       <ul>${itens}${resto}</ul>
     </div>`;
 }
@@ -134,30 +144,31 @@ function blocoFunil(mes) {
   const maior = Math.max(...contagens.map((c) => c.qtd), 1);
   const linhas = contagens
     .map(
-      (c) => `
+      (c, i) => `
       <div class="funil__linha">
         <span class="funil__nome">${c.rotulo}</span>
-        <div class="funil__trilho"><div class="funil__preenchimento" style="width:${(c.qtd / maior) * 100}%;background:${c.cor}"></div></div>
+        <div class="funil__trilho"><div class="funil__preenchimento" style="width:${(c.qtd / maior) * 100}%;background:var(--etapa-${i + 1})"></div></div>
         <span class="funil__qtd">${c.qtd}</span>
       </div>`
     )
     .join("");
-  return `<h2 class="secao-titulo">Funil do mes</h2><div class="funil">${linhas}</div>`;
+  return `<h2 class="secao-titulo">Funil</h2><div class="funil">${linhas}</div>`;
 }
 
 function blocoCanais(m) {
   if (m.porCanal.length === 0) return "";
   const linhas = m.porCanal
+    .slice()
     .sort((a, b) => b.total - a.total)
     .map(
       (c) => `
       <div class="canal">
         <span>${c.canal}</span>
-        <span><strong>${c.total}</strong> <small>lead${c.total > 1 ? "s" : ""} &middot; ${c.fechados} fechado${c.fechados === 1 ? "" : "s"}</small></span>
+        <span class="canal__dados"><b>${c.total}</b> lead${c.total > 1 ? "s" : ""} &middot; ${c.fechados} fechado${c.fechados === 1 ? "" : "s"}</span>
       </div>`
     )
     .join("");
-  return `<h2 class="secao-titulo">Origem dos leads</h2><div class="canais">${linhas}</div>`;
+  return `<h2 class="secao-titulo">Origem</h2><div class="canais">${linhas}</div>`;
 }
 
 function renderizarDashboard(alvo, mes) {
@@ -169,13 +180,14 @@ function renderizarDashboard(alvo, mes) {
   alvo.innerHTML = `
     ${blocoAcaoHoje(m)}
     <h2 class="secao-titulo">${nomeDoMes(mes)}</h2>
-    ${blocoCartoes(m)}
+    ${blocoComissao(m)}
+    ${blocoMetricas(m)}
     ${blocoMornos()}
     ${blocoFunil(mes)}
     ${blocoCanais(m)}
     <p class="aviso">
-      Comissao calculada a ${Math.round(Dados.TAXA_COMISSAO * 100)}% sobre as cartas com status Fechado.<br />
-      Toque nas metas em Ajustes pra mudar os alvos do mes.
+      Comissão a ${Math.round(Dados.TAXA_COMISSAO * 100)}% sobre as cartas com status Fechado.<br />
+      Os alvos do mês ficam em Ajustes.
     </p>`;
 }
 

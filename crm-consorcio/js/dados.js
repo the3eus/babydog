@@ -6,7 +6,7 @@
 
 const CHAVE = "crm-consorcio:v1";
 
-const CANAIS = ["Marketplace", "TikTok", "Kwai", "Instagram", "Indicacao"];
+const CANAIS = ["Marketplace", "TikTok", "Kwai", "Instagram", "Indicação"];
 
 /**
  * Os status sao um funil ordenado. A ordem importa: "reuniao marcada" conta
@@ -17,8 +17,8 @@ const STATUS = [
   { id: "novo", rotulo: "Novo", ordem: 0, cor: "#64748b" },
   { id: "contatado", rotulo: "Contatado", ordem: 1, cor: "#0284c7" },
   { id: "qualificado", rotulo: "Qualificado", ordem: 2, cor: "#7c3aed" },
-  { id: "reuniao_marcada", rotulo: "Reuniao marcada", ordem: 3, cor: "#d97706" },
-  { id: "reuniao_realizada", rotulo: "Reuniao realizada", ordem: 4, cor: "#0d9488" },
+  { id: "reuniao_marcada", rotulo: "Reunião marcada", ordem: 3, cor: "#d97706" },
+  { id: "reuniao_realizada", rotulo: "Reunião realizada", ordem: 4, cor: "#0d9488" },
   { id: "fechado", rotulo: "Fechado", ordem: 5, cor: "#16a34a" },
   { id: "perdido", rotulo: "Perdido", ordem: -1, cor: "#dc2626" },
 ];
@@ -63,7 +63,7 @@ function salvar() {
     localStorage.setItem(CHAVE, JSON.stringify(estado));
   } catch (erro) {
     console.error("Falha ao salvar (armazenamento cheio ou bloqueado).", erro);
-    alert("Nao consegui salvar no navegador. Verifique o espaco disponivel.");
+    alert("Não consegui salvar no navegador. Verifique o espaço disponível.");
   }
   document.dispatchEvent(new CustomEvent("dados:alterados"));
 }
@@ -314,14 +314,14 @@ function carregarExemplo() {
     ["Marcos Ribeiro", "11987650001", "Marketplace", "fechado", 180000, 22, 2],
     ["Aline Souza", "11987650002", "Instagram", "fechado", 240000, 19, 4],
     ["Carlos Pinheiro", "11987650003", "TikTok", "reuniao_realizada", 150000, 15, 1],
-    ["Juliana Alves", "11987650004", "Indicacao", "reuniao_realizada", 320000, 12, 0],
+    ["Juliana Alves", "11987650004", "Indicação", "reuniao_realizada", 320000, 12, 0],
     ["Rodrigo Lima", "11987650005", "Kwai", "reuniao_marcada", 200000, 10, 1],
     ["Patricia Nunes", "11987650006", "Marketplace", "reuniao_marcada", 95000, 9, 6],
     ["Eduardo Freitas", "11987650007", "Instagram", "qualificado", 130000, 8, 5],
     ["Sandra Melo", "11987650008", "TikTok", "qualificado", 110000, 7, 0],
     ["Bruno Tavares", "11987650009", "Marketplace", "contatado", 90000, 6, 4],
     ["Fernanda Dias", "11987650010", "Kwai", "contatado", 160000, 5, 1],
-    ["Tiago Barros", "11987650011", "Indicacao", "novo", 250000, 3, 3],
+    ["Tiago Barros", "11987650011", "Indicação", "novo", 250000, 3, 3],
     ["Camila Rocha", "11987650012", "Instagram", "novo", 140000, 1, 0],
     ["Helio Santana", "11987650013", "TikTok", "perdido", 120000, 20, 8],
   ];

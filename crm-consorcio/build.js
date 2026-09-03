@@ -26,7 +26,8 @@ fs.writeFileSync(path.join(saida, "crm-consorcio.html"), html);
 
 // Versao para Artifact: sem doctype/html/head/body, com <title> e <style> no topo.
 const corpo = html.slice(html.indexOf("<body>") + 6, html.lastIndexOf("</body>")).trim();
-const artefato = `<title>CRM Consorcio</title>\n<style>\n${css}\n</style>\n${corpo}`;
+const titulo = (html.match(/<title>([^<]*)<\/title>/) || [, "CRM"])[1];
+const artefato = `<title>${titulo}</title>\n<style>\n${css}\n</style>\n${corpo}`;
 fs.writeFileSync(path.join(saida, "artefato.html"), artefato);
 
 console.log("dist/crm-consorcio.html e dist/artefato.html gerados.");
