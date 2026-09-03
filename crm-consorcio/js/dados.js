@@ -6,6 +6,9 @@
 
 const CHAVE = "crm-consorcio:v1";
 
+/** Recorte que ignora o filtro de mes. */
+const TODOS = "todos";
+
 const CANAIS = ["Marketplace", "TikTok", "Kwai", "Instagram", "Indicação"];
 
 /**
@@ -63,7 +66,12 @@ function salvar() {
     localStorage.setItem(CHAVE, JSON.stringify(estado));
   } catch (erro) {
     console.error("Falha ao salvar (armazenamento cheio ou bloqueado).", erro);
-    alert("Não consegui salvar no navegador. Verifique o espaço disponível.");
+    // A camada de dados nao desenha nada: avisa e a interface decide como mostrar.
+    document.dispatchEvent(
+      new CustomEvent("dados:erro", {
+        detail: "Não consegui salvar neste navegador. Exporte um backup agora.",
+      })
+    );
   }
   document.dispatchEvent(new CustomEvent("dados:alterados"));
 }
@@ -169,7 +177,7 @@ function desfazerContatoHoje() {
 
 function contatosDoMes(mes = mesAtual()) {
   return Object.entries(estado.contatosPorDia)
-    .filter(([dia]) => dia.startsWith(mes))
+    .filter(([dia]) => mes === TODOS || dia.startsWith(mes))
     .reduce((soma, [, qtd]) => soma + qtd, 0);
 }
 
@@ -212,8 +220,6 @@ function leadsMornos() {
     .filter(estaMorno)
     .sort((a, b) => diasDesde(b.dataUltimaInteracao) - diasDesde(a.dataUltimaInteracao));
 }
-
-const TODOS = "todos";
 
 /** Leads de um recorte: um mes YYYY-MM ou "todos". */
 function leadsDoRecorte(mes) {

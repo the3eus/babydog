@@ -43,6 +43,20 @@
     </button>
   </nav>
 
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    <span class="toast__texto"></span>
+    <button type="button" class="toast__acao" hidden></button>
+  </div>
+
+  <dialog class="dialogo" id="dialogo-confirmar">
+    <h2 id="confirmar-titulo">Confirmar</h2>
+    <p class="dialogo__texto" id="confirmar-texto"></p>
+    <div class="dialogo__acoes">
+      <button type="button" class="botao botao--secundario" data-confirmar="nao">Cancelar</button>
+      <button type="button" class="botao botao--perigo" data-confirmar="sim">Confirmar</button>
+    </div>
+  </dialog>
+
   <dialog class="dialogo" id="dialogo-meta">
     <form method="dialog" id="form-meta">
       <h2>Minhas metas do mês</h2>

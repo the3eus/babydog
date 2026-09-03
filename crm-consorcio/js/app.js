@@ -8,14 +8,79 @@ const telas = {
 
 const seletorMes = document.getElementById("seletor-mes");
 const dialogoMeta = document.getElementById("dialogo-meta");
+const dialogoConfirmar = document.getElementById("dialogo-confirmar");
+const toast = document.getElementById("toast");
 
 let telaAtual = "dashboard";
 let mesSelecionado = Dados.mesAtual();
+
+/* ---------- avisos e confirmacoes ---------- */
+
+let temporizadorToast;
+
+/**
+ * Aviso curto no rodape. `acao` vira um botao (ex.: Desfazer) e, quando
+ * existe, o aviso fica mais tempo na tela pra dar tempo de tocar.
+ */
+function avisar(texto, acao) {
+  clearTimeout(temporizadorToast);
+  toast.querySelector(".toast__texto").textContent = texto;
+
+  const botao = toast.querySelector(".toast__acao");
+  const novo = botao.cloneNode(false); // descarta ouvintes do aviso anterior
+  botao.replaceWith(novo);
+
+  if (acao) {
+    novo.textContent = acao.rotulo;
+    novo.hidden = false;
+    novo.addEventListener("click", () => {
+      esconderToast();
+      acao.executar();
+    });
+  } else {
+    novo.hidden = true;
+  }
+
+  toast.hidden = false;
+  temporizadorToast = setTimeout(esconderToast, acao ? 6000 : 3000);
+}
+
+function esconderToast() {
+  clearTimeout(temporizadorToast);
+  toast.hidden = true;
+}
+
+/** Confirmacao destrutiva, no lugar do confirm() nativo. */
+function confirmar({ titulo, texto, rotulo }) {
+  return new Promise((resolver) => {
+    dialogoConfirmar.querySelector("#confirmar-titulo").textContent = titulo;
+    dialogoConfirmar.querySelector("#confirmar-texto").textContent = texto;
+    dialogoConfirmar.querySelector('[data-confirmar="sim"]').textContent = rotulo;
+
+    const aoFechar = () => {
+      dialogoConfirmar.removeEventListener("close", aoFechar);
+      resolver(dialogoConfirmar.returnValue === "sim");
+    };
+    dialogoConfirmar.addEventListener("close", aoFechar);
+    dialogoConfirmar.returnValue = "nao";
+    dialogoConfirmar.showModal();
+  });
+}
+
+dialogoConfirmar.addEventListener("click", (evento) => {
+  const botao = evento.target.closest("[data-confirmar]");
+  if (botao) dialogoConfirmar.close(botao.dataset.confirmar);
+});
+
+function vibrar(ms) {
+  if (navigator.vibrate) navigator.vibrate(ms);
+}
 
 /* ---------- navegacao ---------- */
 
 function irPara(nome) {
   telaAtual = nome;
+  esconderToast();
   Object.entries(telas).forEach(([id, elemento]) => {
     elemento.hidden = id !== nome;
   });
@@ -41,6 +106,7 @@ function montarSeletorMes() {
     .map((mes) => `<option value="${mes}">${Dashboard.nomeDoMes(mes)}</option>`)
     .join("");
   seletorMes.value = mesSelecionado;
+  seletorMes.disabled = meses.length < 2;
 }
 
 seletorMes.addEventListener("change", () => {
@@ -71,8 +137,10 @@ function renderizarConfig() {
         Os dados ficam só neste navegador. Se limpar o cache ou trocar de celular,
         eles somem. Exporte de vez em quando.
       </div>
-      <button class="botao botao--secundario botao--bloco" data-acao="exportar">Exportar arquivo (.json)</button>
-      <button class="botao botao--fantasma botao--bloco" style="margin-top:8px" data-acao="importar">Importar arquivo</button>
+      <div class="acoes-empilhadas">
+        <button class="botao botao--secundario botao--bloco" data-acao="exportar">Exportar backup (.json)</button>
+        <button class="botao botao--fantasma botao--bloco" data-acao="importar">Importar backup</button>
+      </div>
       <input type="file" id="arquivo-importar" accept="application/json" hidden />
     </div>
 
@@ -101,6 +169,7 @@ function renderizar() {
 }
 
 document.addEventListener("dados:alterados", renderizar);
+document.addEventListener("dados:erro", (evento) => avisar(evento.detail));
 
 /* ---------- acoes (delegacao de eventos) ---------- */
 
@@ -123,16 +192,22 @@ document.addEventListener("click", (evento) => {
 
   if (acao === "registrar-contato") {
     evento.preventDefault();
-    Dados.registrarContatoHoje();
-    if (navigator.vibrate) navigator.vibrate(15);
-  } else if (acao === "desfazer-contato") {
-    evento.preventDefault();
-    Dados.desfazerContatoHoje();
+    const total = Dados.registrarContatoHoje();
+    vibrar(15);
+    pulsarContador();
+    avisar(`${total}\u00ba contato de hoje registrado.`, {
+      rotulo: "Desfazer",
+      executar: () => {
+        Dados.desfazerContatoHoje();
+        vibrar(10);
+      },
+    });
   } else if (acao === "exemplo") {
     Dados.carregarExemplo();
     // O exemplo espalha leads por ~3 semanas, entao pode cruzar a virada do mes:
     // abre em "todos" pra o painel ja aparecer cheio.
     mesSelecionado = Dados.TODOS;
+    avisar("13 leads de exemplo carregados. Apague tudo em Ajustes antes de usar pra valer.");
   } else if (acao === "novo-lead" || acao === "ver-mornos") {
     evento.preventDefault();
     irPara("leads");
@@ -143,9 +218,17 @@ document.addEventListener("click", (evento) => {
   } else if (acao === "importar") {
     document.getElementById("arquivo-importar").click();
   } else if (acao === "apagar") {
-    if (confirm("Apagar todos os leads e métricas deste aparelho? Não dá pra desfazer.")) {
+    confirmar({
+      titulo: "Apagar tudo?",
+      texto:
+        "Todos os leads, contatos e metas somem deste aparelho. Não dá pra desfazer — " +
+        "exporte um backup antes se ainda não tiver.",
+      rotulo: "Apagar tudo",
+    }).then((confirmou) => {
+      if (!confirmou) return;
       Dados.apagarTudo();
-    }
+      avisar("Tudo apagado.");
+    });
   }
 });
 
@@ -157,10 +240,11 @@ document.addEventListener("change", (evento) => {
   leitor.onload = () => {
     try {
       Dados.importar(leitor.result);
-      alert("Dados importados.");
+      avisar(`${Dados.listarLeads().length} leads importados.`);
     } catch (erro) {
-      alert("Arquivo inválido: " + erro.message);
+      avisar("Arquivo inválido: " + erro.message);
     }
+    evento.target.value = ""; // permite reimportar o mesmo arquivo
   };
   leitor.readAsText(arquivo);
 });
@@ -181,6 +265,7 @@ document.getElementById("form-meta").addEventListener("submit", (evento) => {
     metaComissao: Number(form.metaComissao.value) || 0,
     metaReunioes: Number(form.metaReunioes.value) || 0,
   });
+  avisar("Metas atualizadas.");
 });
 
 /* ---------- backup ---------- */
@@ -195,6 +280,21 @@ function exportarArquivo() {
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
+  avisar("Backup baixado. Guarde no Drive ou mande pra voce mesmo.");
+}
+
+/** Pisca o contador do dia — confirma o toque sem precisar ler o numero. */
+function pulsarContador() {
+  requestAnimationFrame(() => {
+    const contador = document.getElementById("contador-hoje");
+    if (!contador) return;
+    contador.classList.add("acao-hoje__numero--pulsa");
+    contador.addEventListener(
+      "animationend",
+      () => contador.classList.remove("acao-hoje__numero--pulsa"),
+      { once: true }
+    );
+  });
 }
 
 /* ---------- inicio ---------- */

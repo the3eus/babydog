@@ -45,13 +45,16 @@ function blocoVazio() {
 function blocoAcaoHoje(m) {
   return `
     <div class="acao-hoje">
-      <div class="acao-hoje__numero" id="contador-hoje">${m.contatosHoje}</div>
+      <div class="acao-hoje__numero" id="contador-hoje" aria-live="polite">${m.contatosHoje}</div>
       <div class="acao-hoje__texto">
         <strong>Contatos de hoje</strong>
         <small>${m.contatosMes} no mês</small>
       </div>
-      <button class="botao-mini" data-acao="desfazer-contato" aria-label="Remover um contato de hoje">&minus;</button>
-      <button class="botao" data-acao="registrar-contato">+1</button>
+      <button class="botao" data-acao="registrar-contato">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" />
+        </svg>Registrar
+      </button>
     </div>`;
 }
 
@@ -98,7 +101,7 @@ function blocoMetricas(m) {
         <div class="metrica__rotulo">Taxa de conversão<small>fechados / reuniões realizadas</small></div>
         <div class="metrica__valor">${percentual(m.taxaConversao)} <em>${m.fechados}/${m.reunioesRealizadas}</em></div>
       </div>
-      <div class="metrica metrica--pilha">
+      <div class="metrica${m.recorteMensal ? " metrica--pilha" : ""}">
         <div class="metrica__rotulo">Reuniões marcadas${m.recorteMensal ? `<small>meta de ${m.metaReunioes} no mês</small>` : ""}</div>
         <div class="metrica__valor">${m.reunioesMarcadas}${m.recorteMensal ? ` <em>de ${m.metaReunioes}</em>` : ""}</div>
         ${barraReunioes}
@@ -110,6 +113,8 @@ function blocoMetricas(m) {
     </div>`;
 }
 
+const SETA = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>`;
+
 function blocoMornos() {
   const mornos = Dados.leadsMornos();
   if (mornos.length === 0) return "";
@@ -117,12 +122,16 @@ function blocoMornos() {
     .slice(0, 5)
     .map((lead) => {
       const dias = Dados.diasDesde(lead.dataUltimaInteracao);
-      return `<li><a href="#" data-lead="${lead.id}">${escapar(lead.nome || "Sem nome")}</a><time>${dias} dias</time></li>`;
+      return `<li><a href="#" data-lead="${lead.id}">
+        <span>${escapar(lead.nome || "Sem nome")}</span>
+        <time>${dias} dias</time>
+        ${SETA}
+      </a></li>`;
     })
     .join("");
   const resto =
     mornos.length > 5
-      ? `<li><a href="#" data-acao="ver-mornos">Ver todos os ${mornos.length}</a><time></time></li>`
+      ? `<li><a href="#" data-acao="ver-mornos"><span>Ver todos os ${mornos.length}</span>${SETA}</a></li>`
       : "";
   return `
     <div class="mornos">
