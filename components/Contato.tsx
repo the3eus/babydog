@@ -153,10 +153,10 @@ export function Contato() {
             <p className="text-sm font-bold uppercase tracking-[0.14em] text-accent-soft">
               {contato.sobrelinha}
             </p>
-            <h2 className="font-oswald mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+            <h2 className="font-oswald mt-3 text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
               {contato.titulo}
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-white/80">
+            <p className="mt-4 text-base leading-relaxed text-white/80">
               {contato.subtitulo}
             </p>
 
@@ -231,7 +231,7 @@ export function Contato() {
                 <span className="inline-flex size-16 items-center justify-center rounded-full bg-accent-light text-accent-dark">
                   <IconeCheck className="size-9" />
                 </span>
-                <p className="mt-5 text-lg font-semibold leading-relaxed text-ink">
+                <p className="mt-5 text-base font-semibold leading-relaxed text-ink">
                   {contato.formulario.sucesso}
                 </p>
                 <a
@@ -249,7 +249,7 @@ export function Contato() {
               </div>
             ) : (
               <>
-                <h3 className="text-xl font-bold tracking-tight">
+                <h3 className="text-lg font-semibold tracking-tight">
                   {contato.formulario.titulo}
                 </h3>
                 <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-soft">

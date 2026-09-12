@@ -11,14 +11,14 @@ export function Sobre() {
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
         <div className="grid gap-12 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
           <div>
-            <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+            <h2 className="text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
               {sobre.titulo}
             </h2>
 
             {sobre.paragrafos.map((paragrafo, indice) => (
               <p
                 key={indice}
-                className="mt-5 text-lg leading-relaxed text-ink-soft"
+                className="mt-5 text-base leading-relaxed text-ink-soft"
               >
                 {paragrafo}
               </p>
@@ -32,7 +32,7 @@ export function Sobre() {
                 key={destaque.rotulo}
                 className="rounded-3xl bg-gradient-to-br from-brand to-brand-dark p-6 text-white shadow-lg shadow-brand/15"
               >
-                <p className="text-2xl font-extrabold leading-none tracking-tight">
+                <p className="text-xl font-bold leading-none tracking-tight">
                   {destaque.numero}
                 </p>
                 <p className="mt-2 text-sm leading-snug text-white/85">

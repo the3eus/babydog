@@ -1,7 +1,9 @@
-import { hero } from "@/lib/content";
+import Image from "next/image";
+import { hero, heroPetlove } from "@/lib/content";
 import { BotaoTelefone, BotaoWhatsApp } from "./CTA";
 import { HeroVideoFundo } from "./HeroVideoFundo";
 import { IconeCheck, IconePata, IconeSeta } from "./icons";
+import petloveLogo from "@/public/petlove-logo.png";
 
 /**
  * Primeiro viewport.
@@ -33,7 +35,20 @@ export function Hero() {
             {hero.sobrelinha}
           </p>
 
-          <h1 className="mt-6 text-[2.15rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]">
+          {/* Selo de plano aceito — cores e logo da Petlove, para quem
+              procura especificamente por isso na primeira dobra. */}
+          <div className="relative mt-4 inline-flex items-center gap-2.5 rounded-2xl bg-white py-2 pl-3 pr-3.5 shadow-lg shadow-black/15">
+            <span
+              aria-hidden="true"
+              className="absolute -bottom-1.5 left-6 size-3 rotate-45 rounded-[2px] bg-white"
+            />
+            <Image src={petloveLogo} alt="Petlove" className="h-4 w-auto shrink-0" />
+            <span className="text-[0.8rem] font-semibold leading-snug text-petlove">
+              {heroPetlove.texto}
+            </span>
+          </div>
+
+          <h1 className="mt-5 text-[1.9rem] font-bold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
             Cuidado completo para o seu pet,{" "}
             <span className="relative whitespace-nowrap text-accent-soft">
               24 horas
@@ -55,7 +70,7 @@ export function Hero() {
             por dia
           </h1>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/85">
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/85">
             {hero.subtitulo}
           </p>
 

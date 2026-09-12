@@ -14,7 +14,7 @@ export function ComoFunciona() {
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-accent-dark">
             {comoFunciona.sobrelinha}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
             {comoFunciona.titulo}
           </h2>
         </div>
@@ -31,7 +31,7 @@ export function ComoFunciona() {
               >
                 {indice + 1}
               </span>
-              <h3 className="mt-5 text-xl font-bold tracking-tight text-ink">
+              <h3 className="mt-5 text-lg font-semibold tracking-tight text-ink">
                 {passo.titulo}
               </h3>
               <p className="mt-2.5 leading-relaxed text-ink-soft">

@@ -179,6 +179,11 @@ export const hero = {
   ],
 } as const;
 
+/** Selo de plano aceito, exibido na hero. Logo em `public/petlove-logo.png`. */
+export const heroPetlove = {
+  texto: "Aceitamos o plano Petlove Saúde",
+} as const;
+
 /* -------------------------------------------------------------------------- */
 /* Sobre a clínica                                                            */
 /* -------------------------------------------------------------------------- */
@@ -306,6 +311,25 @@ export const diferenciaisSecao = {
   sobrelinha: "Por que a Baby Dog",
   titulo: "Motivos para confiar o seu pet à nossa equipe",
 } as const;
+
+/* -------------------------------------------------------------------------- */
+/* Especialidades                                                             */
+/* -------------------------------------------------------------------------- */
+
+export const especialidadesSecao = {
+  sobrelinha: "Especialidades",
+  titulo: "Especialistas para casos que pedem um olhar mais aprofundado",
+} as const;
+
+export const especialidades = [
+  "Ortopedia",
+  "Endocrinologia",
+  "Oftalmologia",
+  "Ultrassonografia",
+  "Gastroenterologia",
+  "Oncologia",
+  "Nefrologia",
+] as const;
 
 /* -------------------------------------------------------------------------- */
 /* Nossa estrutura                                                            */

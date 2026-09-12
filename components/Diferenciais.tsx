@@ -24,7 +24,7 @@ export function Diferenciais() {
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-accent-soft">
             {diferenciaisSecao.sobrelinha}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
             {diferenciaisSecao.titulo}
           </h2>
         </div>
@@ -38,7 +38,7 @@ export function Diferenciais() {
                   <Icone className="size-6" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-lg font-bold leading-snug tracking-tight">
+                  <h3 className="text-base font-semibold leading-snug tracking-tight">
                     {item.titulo}
                   </h3>
                   <p className="mt-1.5 max-w-md leading-relaxed text-white/85">

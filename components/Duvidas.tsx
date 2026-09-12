@@ -16,7 +16,7 @@ export function Duvidas() {
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-accent-dark">
             {duvidas.sobrelinha}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
             {duvidas.titulo}
           </h2>
         </div>
@@ -28,7 +28,7 @@ export function Duvidas() {
               name="duvidas"
               className="group rounded-2xl bg-surface-alt ring-1 ring-brand/8 transition-colors open:bg-brand-tint open:ring-brand/15"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-left text-lg font-semibold text-ink [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-left text-base font-semibold text-ink [&::-webkit-details-marker]:hidden">
                 {item.pergunta}
                 <IconeChevron className="size-5 shrink-0 text-brand transition-transform duration-200 group-open:rotate-180" />
               </summary>

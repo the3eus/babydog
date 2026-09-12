@@ -4,6 +4,7 @@ import { Contato } from "@/components/Contato";
 import { Depoimentos } from "@/components/Depoimentos";
 import { Diferenciais } from "@/components/Diferenciais";
 import { Duvidas } from "@/components/Duvidas";
+import { Especialidades } from "@/components/Especialidades";
 import { Estrutura } from "@/components/Estrutura";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -18,7 +19,7 @@ import { buscarAvaliacoesGoogle } from "@/lib/avaliacoes-google";
  * por trás da ordem atual.
  *
  *   Hero, Sobre, Contato, Estrutura, Atendimentos, Como funciona,
- *   Depoimentos, Dúvidas, Diferenciais, Localização
+ *   Depoimentos, Dúvidas, Diferenciais, Especialidades, Localização
  */
 export default async function Home() {
   const avaliacoesGoogle = await buscarAvaliacoesGoogle();
@@ -44,6 +45,7 @@ export default async function Home() {
         <Depoimentos avaliacoesGoogle={avaliacoesGoogle} />
         <Duvidas />
         <Diferenciais />
+        <Especialidades />
         <Localizacao />
       </main>
 

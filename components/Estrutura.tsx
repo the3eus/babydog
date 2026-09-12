@@ -30,7 +30,7 @@ export function Estrutura() {
         className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent"
       />
       <figcaption className="absolute inset-x-0 bottom-0 p-5">
-        <p className="text-lg font-bold leading-snug text-white">
+        <p className="text-base font-semibold leading-snug text-white">
           {item.titulo}
         </p>
       </figcaption>
@@ -44,10 +44,10 @@ export function Estrutura() {
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-accent-dark">
             {estruturaSecao.sobrelinha}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
             {estruturaSecao.titulo}
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+          <p className="mt-4 text-base leading-relaxed text-ink-soft">
             {estruturaSecao.subtitulo}
           </p>
         </div>

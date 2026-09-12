@@ -66,7 +66,7 @@ export function Depoimentos({
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-accent-dark">
             {depoimentosSecao.sobrelinha}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
             {temDepoimentos
               ? depoimentosSecao.titulo
               : depoimentosSecao.tituloSemDepoimentos}

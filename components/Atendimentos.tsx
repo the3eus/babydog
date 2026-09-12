@@ -23,7 +23,7 @@ export function Atendimentos() {
         <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-accent-light text-brand transition-colors group-hover:bg-brand group-hover:text-white">
           <Icone className="size-7" />
         </span>
-        <h3 className="mt-5 text-xl font-bold tracking-tight text-ink">
+        <h3 className="mt-5 text-lg font-semibold tracking-tight text-ink">
           {item.titulo}
         </h3>
         <p className="mt-2.5 leading-relaxed text-ink-soft">
@@ -43,10 +43,10 @@ export function Atendimentos() {
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-accent-dark">
             {atendimentosSecao.sobrelinha}
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
             {atendimentosSecao.titulo}
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+          <p className="mt-4 text-base leading-relaxed text-ink-soft">
             {atendimentosSecao.subtitulo}
           </p>
         </div>

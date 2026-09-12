@@ -26,10 +26,10 @@ export function Localizacao() {
             <p className="text-sm font-bold uppercase tracking-[0.14em] text-accent-dark">
               {localizacao.sobrelinha}
             </p>
-            <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
               {localizacao.titulo}
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 text-base leading-relaxed text-ink-soft">
               {localizacao.subtitulo}
             </p>
 
