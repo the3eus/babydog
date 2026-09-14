@@ -18,8 +18,8 @@ import { buscarAvaliacoesGoogle } from "@/lib/avaliacoes-google";
  * Ordem das seções na página — ver histórico de commits para o raciocínio
  * por trás da ordem atual.
  *
- *   Hero, Sobre, Contato, Estrutura, Atendimentos, Como funciona,
- *   Depoimentos, Dúvidas, Diferenciais, Especialidades, Localização
+ *   Hero, Sobre, Contato, Especialidades, Atendimentos, Como funciona,
+ *   Depoimentos, Dúvidas, Diferenciais, Estrutura, Localização
  */
 export default async function Home() {
   const avaliacoesGoogle = await buscarAvaliacoesGoogle();
@@ -39,13 +39,13 @@ export default async function Home() {
         <Hero />
         <Sobre />
         <Contato />
-        <Estrutura />
+        <Especialidades />
         <Atendimentos />
         <ComoFunciona />
         <Depoimentos avaliacoesGoogle={avaliacoesGoogle} />
         <Duvidas />
         <Diferenciais />
-        <Especialidades />
+        <Estrutura />
         <Localizacao />
       </main>
 

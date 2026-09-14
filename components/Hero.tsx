@@ -28,27 +28,25 @@ export function Hero() {
         className="absolute inset-0 bg-gradient-to-b from-brand-darker/60 via-brand-darker/72 to-brand-darker/85"
       />
 
-      <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-10 sm:px-6 lg:pb-24 lg:pt-16">
-        <div className="max-w-2xl">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-brand shadow-sm">
-            <IconePata className="size-4 text-accent-dark" />
-            {hero.sobrelinha}
-          </p>
-
-          {/* Selo de plano aceito — cores e logo da Petlove, para quem
-              procura especificamente por isso na primeira dobra. */}
-          <div className="relative mt-4 inline-flex items-center gap-2.5 rounded-2xl bg-white py-2 pl-3 pr-3.5 shadow-lg shadow-black/15">
-            <span
-              aria-hidden="true"
-              className="absolute -bottom-1.5 left-6 size-3 rotate-45 rounded-[2px] bg-white"
-            />
-            <Image src={petloveLogo} alt="Petlove" className="h-4 w-auto shrink-0" />
-            <span className="text-[0.8rem] font-semibold leading-snug text-petlove">
+      <div className="relative mx-auto max-w-6xl px-5 pb-14 pt-8 sm:px-6 lg:pb-20 lg:pt-14">
+        {/* Selo de plano aceito — cores e logo da Petlove. Isolado à
+            direita, fora do bloco de texto principal. */}
+        <div className="mb-5 flex justify-end sm:mb-6">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white py-2.5 pl-3.5 pr-4 shadow-lg shadow-black/15">
+            <Image src={petloveLogo} alt="Petlove" className="h-5 w-auto shrink-0" />
+            <span className="text-sm font-semibold leading-snug text-petlove">
               {heroPetlove.texto}
             </span>
           </div>
+        </div>
 
-          <h1 className="mt-5 text-[1.9rem] font-bold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
+        <div className="max-w-2xl">
+          <p className="inline-flex items-center gap-2 rounded-full bg-white/90 px-3.5 py-1.5 text-xs font-semibold text-brand shadow-sm">
+            <IconePata className="size-3.5 text-accent-dark" />
+            {hero.sobrelinha}
+          </p>
+
+          <h1 className="mt-4 text-[1.6rem] font-bold leading-[1.15] tracking-tight text-white sm:text-3xl lg:text-[2.3rem]">
             Cuidado completo para o seu pet,{" "}
             <span className="relative whitespace-nowrap text-accent-soft">
               24 horas
@@ -70,12 +68,12 @@ export function Hero() {
             por dia
           </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/85">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/80">
             {hero.subtitulo}
           </p>
 
           {/* Ação principal */}
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <BotaoWhatsApp
               origem="hero"
               rotulo={hero.ctaPrimario}
@@ -95,29 +93,17 @@ export function Hero() {
           </div>
 
           {/* Sinalização de confiança logo abaixo da CTA */}
-          <ul className="mt-8 hidden flex-wrap gap-x-6 gap-y-3 sm:flex">
+          <ul className="mt-6 hidden flex-wrap gap-x-6 gap-y-2.5 sm:flex">
             {hero.selos.map((selo) => (
               <li
                 key={selo}
-                className="inline-flex items-center gap-2 text-sm font-medium text-white/90"
+                className="inline-flex items-center gap-2 text-xs font-medium text-white/90"
               >
-                <IconeCheck className="size-4 shrink-0 text-accent-soft" />
+                <IconeCheck className="size-3.5 shrink-0 text-accent-soft" />
                 {selo}
               </li>
             ))}
           </ul>
-
-          {/* Reforça o 24h no ponto de maior atenção */}
-          <div className="mt-7 hidden items-center gap-2.5 rounded-2xl bg-white px-4 py-3 shadow-xl shadow-black/10 sm:inline-flex">
-            <span className="relative flex size-2.5 shrink-0">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-70" />
-              <span className="relative inline-flex size-2.5 rounded-full bg-accent-dark" />
-            </span>
-            <div className="leading-tight">
-              <p className="text-sm font-bold text-ink">Aberto agora</p>
-              <p className="text-xs text-ink-soft">Todos os dias, 24h</p>
-            </div>
-          </div>
         </div>
       </div>
 

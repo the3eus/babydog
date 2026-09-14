@@ -18,6 +18,9 @@ export function Especialidades() {
           <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
             {especialidadesSecao.titulo}
           </h2>
+          <p className="mt-3 leading-relaxed text-ink-soft">
+            {especialidadesSecao.subtitulo}
+          </p>
         </div>
 
         <ul className="mt-8 flex flex-wrap gap-3">

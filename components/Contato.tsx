@@ -174,8 +174,7 @@ export function Contato() {
                     {clinica.telefone.nome}
                   </span>
                   <span className="block text-sm text-white/85">
-                    {clinica.telefone.exibicao} · a qualquer hora, inclusive de
-                    madrugada
+                    {clinica.telefone.exibicao}
                   </span>
                 </span>
               </a>

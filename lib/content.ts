@@ -169,14 +169,10 @@ export const hero = {
   sobrelinha: "Centro Médico Veterinário em Jundiaí",
   titulo: "Cuidado completo para o seu pet, 24 horas por dia",
   subtitulo:
-    "Consultas, especialidades, exames, cirurgias e internação em estrutura própria. Nossa equipe está de portas abertas a qualquer hora, todos os dias do ano.",
+    "Consultas, exames de imagem, cirurgias e internação em estrutura própria — de portas abertas 24h, todos os dias.",
   ctaPrimario: "Falar no WhatsApp",
   ctaSecundario: "Ligar agora",
-  selos: [
-    "Aberto 24h, todos os dias",
-    "Equipe com diversos especialistas",
-    "Estrutura própria completa",
-  ],
+  selos: ["Equipe com diversos especialistas", "Estrutura própria completa"],
 } as const;
 
 /** Selo de plano aceito, exibido na hero. Logo em `public/petlove-logo.png`. */
@@ -189,10 +185,9 @@ export const heroPetlove = {
 /* -------------------------------------------------------------------------- */
 
 export const sobre = {
-  titulo: "Do diagnóstico ao acompanhamento, tudo no mesmo lugar",
+  titulo: "Cuidado de perto, em cada etapa",
   paragrafos: [
-    "A Baby Dog é um centro médico veterinário em Jundiaí estruturado para acompanhar o seu pet em cada etapa: a consulta que identifica o problema, os exames que confirmam o diagnóstico, o procedimento cirúrgico quando necessário e a internação com acompanhamento contínuo.",
-    "Ter tudo reunido em um só endereço significa menos deslocamento em um momento delicado, informação clínica que não se perde no caminho e uma equipe que conhece a história do seu animal do início ao fim.",
+    "A Baby Dog é um centro médico veterinário em Jundiaí que acompanha o seu pet com atenção e carinho — da consulta ao tratamento, sempre com uma equipe pronta para cuidar de quem você ama.",
   ],
   destaques: [
     { numero: "24h", rotulo: "De portas abertas, todos os dias" },
@@ -229,13 +224,13 @@ export const atendimentos: Atendimento[] = [
     icone: "especialista",
     titulo: "Especialidades",
     descricao:
-      "Corpo clínico com diversos especialistas, para casos que pedem um olhar mais aprofundado.",
+      "Corpo clínico com diversos especialistas, para casos que pedem um olhar mais aprofundado. Atendimento com hora marcada — fale com a gente antes para confirmar a disponibilidade.",
   },
   {
     icone: "exame",
-    titulo: "Exames complementares",
+    titulo: "Exames de imagem",
     descricao:
-      "Exames realizados como apoio ao diagnóstico, com resultados que orientam a conduta clínica.",
+      "Exames de imagem realizados na nossa sala própria, como apoio ao diagnóstico clínico.",
   },
   {
     icone: "cirurgia",
@@ -297,7 +292,7 @@ export const diferenciais: Diferencial[] = [
     icone: "predio",
     titulo: "Estrutura própria",
     descricao:
-      "Exames, centro cirúrgico, internação e farmácia no mesmo endereço do atendimento.",
+      "Exames de imagem, centro cirúrgico, internação e farmácia no mesmo endereço do atendimento.",
   },
   {
     icone: "plano",
@@ -319,6 +314,8 @@ export const diferenciaisSecao = {
 export const especialidadesSecao = {
   sobrelinha: "Especialidades",
   titulo: "Especialistas para casos que pedem um olhar mais aprofundado",
+  subtitulo:
+    "Atendimento com hora marcada, mediante confirmação prévia de disponibilidade.",
 } as const;
 
 export const especialidades = [
@@ -407,7 +404,7 @@ export const comoFunciona = {
     {
       titulo: "Traga o seu pet",
       descricao:
-        "Consulta, exames, cirurgia ou internação: o que for necessário acontece no mesmo lugar.",
+        "Consulta, exames de imagem, cirurgia ou internação: o que for necessário acontece no mesmo lugar.",
     },
   ],
 } as const;
@@ -518,6 +515,11 @@ export const duvidas = {
       pergunta: "Vocês atendem gatos também?",
       resposta:
         "Sim. Nosso atendimento clínico e cirúrgico contempla cães e gatos.",
+    },
+    {
+      pergunta: "Os especialistas atendem em qualquer horário?",
+      resposta:
+        "As consultas com especialistas são feitas com hora marcada. Fale com a gente pelo WhatsApp ou por telefone antes, para confirmarmos a disponibilidade.",
     },
     {
       pergunta: "Vocês atendem animais silvestres ou exóticos?",
